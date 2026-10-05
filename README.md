@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ambrosia Wellness
 
-## Getting Started
+Content and community site built with Next.js (App Router), TypeScript, Tailwind CSS v4 and MDX.
 
-First, run the development server:
+## Develop
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Essays (Substack)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The homepage's lead section and `/essays` are pulled from the Substack RSS feed at
+`https://philipambrose.substack.com/feed` (see `lib/substack.ts`). The feed is cached for an hour,
+so new Substack posts appear without a redeploy. Links open the essay on Substack.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Override the publication with `SUBSTACK_PUBLICATION_URL` (e.g. a custom domain).
+- Until the publication has posts, both places show a "first essay is on its way" state.
 
-## Learn More
+## Writing journal posts
 
-To learn more about Next.js, take a look at the following resources:
+Add an `.mdx` file to `content/posts/`. The filename becomes the URL slug.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```yaml
+---
+title: "Sentence case title"
+date: 2026-10-05
+category: Movement        # Movement | Food | Recovery | Mindset | Community
+excerpt: "One sentence shown on cards and in RSS."
+image: /images/posts/my-post.jpg
+imageAlt: "Describe the photo for screen readers"   # optional, falls back to title
+readTime: 5
+---
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Until a file exists at `public/<image>`, the site shows a labeled placeholder block.
 
-## Deploy on Vercel
+## Before launch
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Newsletter:** connect an email provider in `app/api/subscribe/route.ts` (see the TODO there, which includes a Mailchimp example).
+- **Contact form:** deliver inquiries in `app/api/contact/route.ts` (see the TODO there).
+- **Site URL:** set `NEXT_PUBLIC_SITE_URL` in Vercel (e.g. `https://ambrosiawellness.com`) so canonical URLs, RSS and the sitemap use the right domain. Without it, Vercel's production URL is used.
+- Replace placeholder photos and review all copy.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Design tokens
+
+Colors live in `app/globals.css` under `@theme` (the default Tailwind palette is cleared). Never use `gold` for text on ivory; use `oxblood` on ivory and `gold-light` on oxblood.
