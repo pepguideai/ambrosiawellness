@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
 import { site } from "@/lib/site";
@@ -70,7 +71,14 @@ export default async function HomePage() {
           <div className="relative mx-auto w-full max-w-[300px] py-8 md:max-w-[420px]">
             <HexagonMotif className="pointer-events-none absolute top-1/2 left-1/2 w-[135%] -translate-x-1/2 -translate-y-1/2" />
             <div className="relative aspect-[4/5] border border-gold-light bg-ivory-deep">
-              <Placeholder label="A person stretching in a sunlit kitchen before work" />
+              <Image
+                src="/images/hero-kitchen-stretch.webp"
+                alt="A person stretching in a sunlit kitchen before work"
+                fill
+                priority
+                sizes="(min-width: 768px) 420px, 300px"
+                className="object-cover object-[62%_center]"
+              />
             </div>
           </div>
         </div>
